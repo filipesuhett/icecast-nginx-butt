@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  icecast:
+    build:
+      context: icecast/
+    environment:
+      - ICECAST_SOURCE_PASSWORD=suhett
+      - ICECAST_ADMIN_PASSWORD=suhett
+      - ICECAST_PASSWORD=suhett
+      - ICECAST_RELAY_PASSWORD=suhett
+    ports:
+    - 8000:8000
+    networks:
+      - stream-network
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - icecast
+    networks:
+      - stream-network
+
+networks:
+  stream-network:
+    driver: bridge
